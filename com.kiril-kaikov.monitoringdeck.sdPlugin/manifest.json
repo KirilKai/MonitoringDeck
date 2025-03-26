@@ -1,0 +1,141 @@
+{
+	"Name": "MonitoringDeck",
+	"Version": "0.1.0.0",
+	"Author": "Kiril Kaikov",
+	"Actions": [
+		{
+			"Name": "CPU utilization",
+			"UUID": "com.kiril-kaikov.monitoringdeck.cpuutilization",
+			"Icon": "imgs/actions/monitoring/cpu",
+			"Tooltip": "Displays the utilization of the CPU.",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/darkblue",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "CPU temperature",
+			"UUID": "com.kiril-kaikov.monitoringdeck.cputemperature",
+			"Icon": "imgs/actions/monitoring/cpu",
+			"Tooltip": "Displays the temperature of the CPU.",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/darkblue",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "GPU utilization",
+			"UUID": "com.kiril-kaikov.monitoringdeck.gpuutilization",
+			"Icon": "imgs/actions/monitoring/nvidia",
+			"Tooltip": "Displays the utilization of the GPU.",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/orange",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "GPU temperature",
+			"UUID": "com.kiril-kaikov.monitoringdeck.gputemperature",
+			"Icon": "imgs/actions/monitoring/nvidia",
+			"Tooltip": "Displays the temperature of the GPU (default behavior)",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/orange",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "GPU temperature V2",
+			"UUID": "com.kiril-kaikov.monitoringdeck.gputemperature2",
+			"Icon": "imgs/actions/monitoring/nvidia",
+			"Tooltip": "Displays the temperature of the GPU (With last known temperature).",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/orange",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "Download Speed",
+			"UUID": "com.kiril-kaikov.monitoringdeck.downloadspeed",
+			"Icon": "imgs/actions/monitoring/speed",
+			"Tooltip": "Displays the current network's download speed.",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/red",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "Upload Speed",
+			"UUID": "com.kiril-kaikov.monitoringdeck.uploadspeed",
+			"Icon": "imgs/actions/monitoring/speed",
+			"Tooltip": "Displays the current network's upload speed.",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/green",
+					"TitleAlignment": "middle",
+					"FontSize": 12
+				}
+			]
+		},
+		{
+			"Name": "Secret Button",
+			"UUID": "com.kiril-kaikov.monitoringdeck.secret",
+			"Icon": "imgs/actions/monitoring/question",
+			"Tooltip": "😉",
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/monitoring/dina"
+				}
+			]
+		}
+	],
+	"Category": "MonitoringDeck",
+	"CategoryIcon": "imgs/plugin/screen",
+	"CodePath": "bin/plugin.js",
+	"Description": "MonitoringDeck provides real-time monitoring of CPU and GPU utilization, temperatures, and network speeds (download & upload) directly on your Stream Deck.",
+	"Icon": "imgs/plugin/screen",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.4"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "com.kiril-kaikov.monitoringdeck"
+}
