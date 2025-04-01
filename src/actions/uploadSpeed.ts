@@ -25,7 +25,7 @@ export class UploadSpeedAction extends SingletonAction {
     this.prevTxBytes = this.getSentBytes();
 
     this.updateUploadSpeed(ev);
-    this.interval = setInterval(() => this.updateUploadSpeed(ev), 1000);
+    this.interval = setInterval(() => this.updateUploadSpeed(ev), 500);
   }
 
   /**
@@ -42,7 +42,7 @@ export class UploadSpeedAction extends SingletonAction {
     } else {
       this.prevTxBytes = this.getSentBytes();
       this.updateUploadSpeed(ev);
-      this.interval = setInterval(() => this.updateUploadSpeed(ev), 1000);
+      this.interval = setInterval(() => this.updateUploadSpeed(ev), 500);
     }
     this.isMonitoring = !this.isMonitoring;
   }
@@ -52,13 +52,16 @@ export class UploadSpeedAction extends SingletonAction {
    */
   private getSentBytes(): number {
     try {
-      const output = execSync(
-        'powershell -Command "& {(Get-NetAdapterStatistics | Where-Object { $_.SentBytes -gt 0 } | Select-Object -ExpandProperty SentBytes)}"',
-        { encoding: 'utf8' }
-      ).trim();
-      return parseInt(output, 10) || 0;
+      const output = execSync('netstat -e | findstr "Bytes Sent"', {
+        encoding: 'utf8',
+      }).trim();
+      const bytesSent = output.match(/\d+/g);
+      if (bytesSent && bytesSent[0]) {
+        return parseInt(bytesSent[0], 10) || 0;
+      }
+      return 0;
     } catch (error) {
-      console.error('Error fetching sent bytes:', error);
+      console.error('Error fetching sent bytes with netstat:', error);
       return 0;
     }
   }
@@ -79,6 +82,20 @@ export class UploadSpeedAction extends SingletonAction {
     console.log(`Upload Speed: ${speedMbps.toFixed(1)} Mbps`);
     await ev.action.setTitle(`UL\n${speedMbps.toFixed(1)}\nMbps`);
   }
+
+  // old
+  // private getSentBytes(): number {
+  //   try {
+  //     const output = execSync(
+  //       'powershell -Command "& {(Get-NetAdapterStatistics | Where-Object { $_.SentBytes -gt 0 } | Select-Object -ExpandProperty SentBytes)}"',
+  //       { encoding: 'utf8' }
+  //     ).trim();
+  //     return parseInt(output, 10) || 0;
+  //   } catch (error) {
+  //     console.error('Error fetching sent bytes:', error);
+  //     return 0;
+  //   }
+  // }
 
   /**
    * Called when the action disappears from the Stream Deck.

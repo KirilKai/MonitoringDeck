@@ -25,7 +25,7 @@ export class DownloadSpeedAction extends SingletonAction {
     this.prevRxBytes = this.getReceivedBytes();
 
     this.updateDownloadSpeed(ev);
-    this.interval = setInterval(() => this.updateDownloadSpeed(ev), 1000);
+    this.interval = setInterval(() => this.updateDownloadSpeed(ev), 500);
   }
 
   /**
@@ -42,7 +42,7 @@ export class DownloadSpeedAction extends SingletonAction {
     } else {
       this.prevRxBytes = this.getReceivedBytes();
       this.updateDownloadSpeed(ev);
-      this.interval = setInterval(() => this.updateDownloadSpeed(ev), 1000);
+      this.interval = setInterval(() => this.updateDownloadSpeed(ev), 500);
     }
     this.isMonitoring = !this.isMonitoring;
   }
@@ -52,16 +52,33 @@ export class DownloadSpeedAction extends SingletonAction {
    */
   private getReceivedBytes(): number {
     try {
-      const output = execSync(
-        'powershell -Command "& {(Get-NetAdapterStatistics | Where-Object { $_.ReceivedBytes -gt 0 } | Select-Object -ExpandProperty ReceivedBytes)}"',
-        { encoding: 'utf8' }
-      ).trim();
-      return parseInt(output, 10) || 0;
+      const output = execSync('netstat -e | findstr "Bytes Received"', {
+        encoding: 'utf8',
+      }).trim();
+      const bytesReceived = output.match(/\d+/g);
+      if (bytesReceived && bytesReceived[0]) {
+        return parseInt(bytesReceived[0], 10) || 0;
+      }
+      return 0;
     } catch (error) {
-      console.error('Error fetching received bytes:', error);
+      console.error('Error fetching received bytes with netstat:', error);
       return 0;
     }
   }
+
+  // old
+  // private getReceivedBytes(): number {
+  //   try {
+  //     const output = execSync(
+  //       'powershell -Command "& {(Get-NetAdapterStatistics | Where-Object { $_.ReceivedBytes -gt 0 } | Select-Object -ExpandProperty ReceivedBytes)}"',
+  //       { encoding: 'utf8' }
+  //     ).trim();
+  //     return parseInt(output, 10) || 0;
+  //   } catch (error) {
+  //     console.error('Error fetching received bytes:', error);
+  //     return 0;
+  //   }
+  // }
 
   /**
    * Fetches network stats and updates the Stream Deck button title.
@@ -73,7 +90,7 @@ export class DownloadSpeedAction extends SingletonAction {
     const currentRxBytes = this.getReceivedBytes();
 
     // Convert to Megabits per second (Mbps)
-    const speedMbps = ((currentRxBytes - this.prevRxBytes) * 8) / 1_000_000; 
+    const speedMbps = ((currentRxBytes - this.prevRxBytes) * 8) / 1_000_000;
     this.prevRxBytes = currentRxBytes;
 
     console.log(`Download Speed: ${speedMbps.toFixed(1)} Mbps`);
