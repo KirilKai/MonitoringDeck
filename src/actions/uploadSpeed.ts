@@ -66,6 +66,20 @@ export class UploadSpeedAction extends SingletonAction {
     }
   }
 
+  // old
+  // private getSentBytes(): number {
+  //   try {
+  //     const output = execSync(
+  //       'powershell -Command "& {(Get-NetAdapterStatistics | Where-Object { $_.SentBytes -gt 0 } | Select-Object -ExpandProperty SentBytes)}"',
+  //       { encoding: 'utf8' }
+  //     ).trim();
+  //     return parseInt(output, 10) || 0;
+  //   } catch (error) {
+  //     console.error('Error fetching sent bytes:', error);
+  //     return 0;
+  //   }
+  // }
+
   /**
    * Fetches network stats and updates the Stream Deck button title.
    */
@@ -82,20 +96,6 @@ export class UploadSpeedAction extends SingletonAction {
     console.log(`Upload Speed: ${speedMbps.toFixed(1)} Mbps`);
     await ev.action.setTitle(`UL\n${speedMbps.toFixed(1)}\nMbps`);
   }
-
-  // old
-  // private getSentBytes(): number {
-  //   try {
-  //     const output = execSync(
-  //       'powershell -Command "& {(Get-NetAdapterStatistics | Where-Object { $_.SentBytes -gt 0 } | Select-Object -ExpandProperty SentBytes)}"',
-  //       { encoding: 'utf8' }
-  //     ).trim();
-  //     return parseInt(output, 10) || 0;
-  //   } catch (error) {
-  //     console.error('Error fetching sent bytes:', error);
-  //     return 0;
-  //   }
-  // }
 
   /**
    * Called when the action disappears from the Stream Deck.
